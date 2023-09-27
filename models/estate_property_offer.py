@@ -68,6 +68,11 @@ class EstatePropertyOffer(models.Model):
         self.property_id.selling_price = self.price
         self.property_id.partner_id = self.partner_id
 
+    @api.model
+    def create(self, vals):
+        self.env["estate.property"].browse(vals['property_id']).state='offer received'
+        return super().create(vals)
+    
     @api.constrains('status')
     def _check_price(self):
         for record in self:

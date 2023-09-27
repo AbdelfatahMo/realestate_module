@@ -1,5 +1,7 @@
 from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 from datetime import date
+
 
 
 class EstateProperty(models.Model):
@@ -111,3 +113,11 @@ class EstateProperty(models.Model):
     def action_property_cancel(self):
         self.state = "canceled"
         return
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_state_no_new_canceled(self):
+        for record in self:
+            if record.state =='new' or record.state == 'canceled':
+                pass
+            else:
+                raise ValidationError("Only new and canceled properties can be deleted") 
