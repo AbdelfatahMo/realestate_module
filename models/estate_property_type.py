@@ -18,3 +18,12 @@ class EstatePropertyType(models.Model):
 
     property_ids = fields.One2many(
         comodel_name="estate.property", inverse_name="property_type_id")
+
+    offer_ids = fields.One2many(comodel_name="estate.property.offer", inverse_name="property_type_id")
+
+    offer_count = offer_count = fields.Integer(compute='_compute_offer_count', string='Offer Count')
+    
+    @api.depends('offer_ids')
+    def _compute_offer_count(self):
+        for record in self:
+            record.offer_count = len(self.offer_ids)

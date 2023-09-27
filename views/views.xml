@@ -1,31 +1,37 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="realestate.list">
-      <field name="name">realestate list</field>
-      <field name="model">realestate.realestate</field>
+
+    <record model="ir.ui.view" id="estate_property_offer_tree_view">
+      <field name="name">estate.property.offer.tree.view</field>
+      <field name="model">estate.property.offer</field>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
+        <tree decoration-danger="status == 'refused'" decoration-success="status == 'accepted'">
+          <field name="property_id" invisible="1" />
+          <field name="status" invisible="1" />
+          <field name="price" />
+          <field name="partner_id" widget="many2one_avatar" />
+          <field name="validity" />
+          <field name="date_deadline" />
+          <button string=" " name="action_accept_offer" type="object" icon="fa-check" attrs="{'invisible':[('status','in', ('accepted','refused'))]}" />
+          <button string=" " name="action_refuse_offer" type="object" icon="fa-times" attrs="{'invisible':[('status','in', ('accepted','refused'))]}" />
         </tree>
       </field>
     </record>
--->
+
 
     <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="realestate.action_window">
-      <field name="name">realestate window</field>
-      <field name="res_model">realestate.realestate</field>
-      <field name="view_mode">tree,form</field>
+
+    <record model="ir.actions.act_window" id="estate_property_offer_action">
+      <field name="name">Property offers</field>
+      <field name="res_model">estate.property.offer</field>
+      <field name="view_mode">tree</field>
+      <field name="domain">[('property_type_id','=',active_id)]</field>
     </record>
--->
+
 
     <!-- server action to the one above -->
-<!--
+    <!--
     <record model="ir.actions.server" id="realestate.action_server">
       <field name="name">realestate server</field>
       <field name="model_id" ref="model_realestate_realestate"/>
@@ -41,20 +47,18 @@
 -->
 
     <!-- Top menu item -->
-<!--
+    <!--
     <menuitem name="realestate" id="realestate.menu_root"/>
 -->
     <!-- menu categories -->
-<!--
+    <!--
     <menuitem name="Menu 1" id="realestate.menu_1" parent="realestate.menu_root"/>
     <menuitem name="Menu 2" id="realestate.menu_2" parent="realestate.menu_root"/>
 -->
     <!-- actions -->
-<!--
-    <menuitem name="List" id="realestate.menu_1_list" parent="realestate.menu_1"
-              action="realestate.action_window"/>
-    <menuitem name="Server to list" id="realestate" parent="realestate.menu_2"
-              action="realestate.action_server"/>
+    <!--
+    <menuitem name="List" id="realestate.menu_1_list" parent="realestate.menu_1" action="realestate.action_window"/>
+    <menuitem name="Server to list" id="realestate" parent="realestate.menu_2" action="realestate.action_server"/>
 -->
   </data>
 </odoo>
